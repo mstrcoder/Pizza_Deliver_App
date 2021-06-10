@@ -1,0 +1,26 @@
+{
+  "name": "pizza_deliver_app",
+  "version": "1.0.0",
+  "description": "This is An Full Stack APP where You can Order The Pizza And can Track it In real Time",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mstrcoder/Pizza_Deliver_App.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mstrcoder/Pizza_Deliver_App/issues"
+  },
+  "homepage": "https://github.com/mstrcoder/Pizza_Deliver_App#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
