@@ -23,6 +23,7 @@
     "pug": "^3.0.2"
   },
   "devDependencies": {
+    "laravel-mix": "^5.0.9",
     "nodemon": "^2.0.7"
   }
 }
