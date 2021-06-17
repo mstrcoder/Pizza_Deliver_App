@@ -30,10 +30,12 @@
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.0",
     "fs": "^0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.13",
     "net": "^1.0.2",
     "noty": "^3.2.0-beta-deprecated",
     "pug": "^3.0.2",
+    "validator": "^13.6.0",
     "xhr": "^2.6.0"
   },
   "devDependencies": {
