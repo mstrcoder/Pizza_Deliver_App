@@ -23,6 +23,7 @@
   "homepage": "https://github.com/mstrcoder/Pizza_Deliver_App#readme",
   "dependencies": {
     "axios": "^0.21.1",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "ejs": "^3.1.6",
@@ -31,6 +32,7 @@
     "fs": "^0.0.1-security",
     "mongoose": "^5.12.13",
     "net": "^1.0.2",
+    "noty": "^3.2.0-beta-deprecated",
     "pug": "^3.0.2",
     "xhr": "^2.6.0"
   },

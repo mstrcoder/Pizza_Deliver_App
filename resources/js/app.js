@@ -1,7 +1,8 @@
 import { cart } from "./add_to_cart";
+import { notification } from "./notification.js";
 const add = document.querySelectorAll(".add-to-cart");
 const addtocarts = document.querySelector("#cartCounter");
-console.log(add);
+
 localStorage.setItem("session", "");
 var a = [];
 add.forEach((x) => {
@@ -9,7 +10,8 @@ add.forEach((x) => {
     e.preventDefault();
     let val = JSON.parse(x.getAttribute("data-pizza"));
     val.qty = 1;
-    alert("Your Pizza Added In cart");
+    notification("success", "Item Added To Cart!");
+
     let flag = 0;
     a.forEach((ele) => {
       if (ele.name == val.name) {
