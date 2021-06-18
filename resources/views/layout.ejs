@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Realtime pizza app</title>
+    <title>Pizza_delivery_App</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"
       rel="stylesheet"
@@ -27,7 +27,7 @@
       <div>
         <ul class="flex items-center">
           <li class="ml-6"><a href="/">Menu</a></li>
-          <% if(user) { %>
+          <% if(Object.keys(user).length) { %>
           <li class="ml-6">
             <form id="logout" action="/logout" method="POST">
               <a onclick="document.getElementById('logout').submit()" href="#"

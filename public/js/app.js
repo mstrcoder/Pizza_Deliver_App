@@ -6054,11 +6054,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _notification_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./notification.js */ "./resources/js/notification.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 var cart = /*#__PURE__*/function () {
@@ -6078,26 +6080,25 @@ var cart = /*#__PURE__*/function () {
 
           case 3:
             res = _context.sent;
-            console.log(res.data.status);
 
             if (res.data.status === "Success!") {
               location.assign("/cart");
             }
 
-            _context.next = 11;
+            _context.next = 10;
             break;
 
-          case 8:
-            _context.prev = 8;
+          case 7:
+            _context.prev = 7;
             _context.t0 = _context["catch"](0);
-            alert("error");
+            Object(_notification_js__WEBPACK_IMPORTED_MODULE_2__["notification"])("error", "".concat(_context.t0.response.data.message, " Please Login To Add item to cart"));
 
-          case 11:
+          case 10:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 7]]);
   }));
 
   return function cart(_x) {
@@ -6121,7 +6122,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var add = document.querySelectorAll(".add-to-cart");
-var addtocarts = document.querySelector("#cartCounter");
+var addtocarts = document.querySelector("#cartCounter"); // const login = document.querySelector(".login");
+
 localStorage.setItem("session", "");
 var a = [];
 add.forEach(function (x) {
@@ -6146,7 +6148,11 @@ add.forEach(function (x) {
 });
 addtocarts.addEventListener("click", function (e) {
   Object(_add_to_cart__WEBPACK_IMPORTED_MODULE_0__["cart"])(a);
-});
+}); // login.addEventListener("submit", (e) => {
+//   const email = document.getElementById("username").value;
+//   const password = document.getElementById("password").value;
+//   console.log(email, password);
+// });
 
 /***/ }),
 

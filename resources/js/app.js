@@ -2,7 +2,7 @@ import { cart } from "./add_to_cart";
 import { notification } from "./notification.js";
 const add = document.querySelectorAll(".add-to-cart");
 const addtocarts = document.querySelector("#cartCounter");
-
+// const login = document.querySelector(".login");
 localStorage.setItem("session", "");
 var a = [];
 add.forEach((x) => {
@@ -29,3 +29,9 @@ add.forEach((x) => {
 addtocarts.addEventListener("click", (e) => {
   cart(a);
 });
+
+// login.addEventListener("submit", (e) => {
+//   const email = document.getElementById("username").value;
+//   const password = document.getElementById("password").value;
+//   console.log(email, password);
+// });
