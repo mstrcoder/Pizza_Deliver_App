@@ -106,16 +106,16 @@ exports.isLogeedIn = async (req, res, next) => {
         "hello-bhayya-kese-ho-aap"
       );
 
-      // console.log(decoded);
-
       // Check if user still Exist
       const freshUser = await User.findById(decoded.id);
       if (!freshUser) {
         return next();
       }
-
+      // console.log(freshUser);
       //There is an Login User
       //this way we can store locally any thing PUG template can access to it
+
+      req.user = freshUser;
       res.locals.user = freshUser;
 
       return next();

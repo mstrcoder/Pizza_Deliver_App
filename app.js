@@ -9,7 +9,9 @@ const cors = require("cors");
 const AppError = require("./utils/error");
 const catchAsync = require("./utils/catch");
 const Auth = require("./routes/user");
+const Order = require("./routes/order");
 const Parser = require("cookie-parser");
+const session = require("express-session");
 app.use(bodyParser.json());
 app.use(expressLayout);
 app.use(Parser());
@@ -21,6 +23,7 @@ app.use(
     extended: true,
   })
 );
+app.use(session({ secret: "hello-bhayya-kese-ho-aap" }));
 
 app.use(cors());
 app.get(
@@ -42,7 +45,7 @@ let a = {};
 app.post(
   "/cart",
   Auth.Protect,
-  catchAsync(async (req, res) => {
+  catchAsync(async (req, res, next) => {
     a = req.body;
     res.status(201).json({
       status: "Success!",
@@ -52,14 +55,20 @@ app.post(
 app.get(
   "/cart",
   Auth.isLogeedIn,
-  catchAsync(async (req, res) => {
+  catchAsync(async (req, res, next) => {
     let Total_Price = 0;
-    for (let pizza of Object.values(a)) Total_Price += pizza.qty * pizza.price;
-
-    res.render("customers/cart", {
-      session: a,
-      Total_Price: Total_Price,
-    });
+    if (Object.keys(a).length == 0) {
+      next(new AppError("Need to Add Pizza to Add to cart", 404));
+    } else {
+      for (let pizza of Object.values(a))
+        Total_Price += pizza.qty * pizza.price;
+      req.session.cart = a;
+      req.session.Total_Price = Total_Price;
+      res.render("customers/cart", {
+        session: a,
+        Total_Price: Total_Price,
+      });
+    }
   })
 );
 app.get("/login", (req, res, next) => {
@@ -71,6 +80,9 @@ app.get("/register", (req, res, next) => {
 app.post("/register", Auth.signup);
 app.post("/login", Auth.login);
 app.post("/logout", Auth.logout);
+app.post("/orders", Auth.isLogeedIn, Order.placeOrder);
+app.get("/customer/orders", Auth.isLogeedIn, Order.findOrders);
+app.get("/customer/orders/:id", Auth.Protect, Order.TrackOrder);
 app.all("*", (req, res, next) => {
   next(new AppError(`Cannot Find The Route`, 404));
 });

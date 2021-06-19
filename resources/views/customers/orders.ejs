@@ -1,7 +1,7 @@
 <section class="orders light-section">
-    <div class="container mx-auto pt-12">
-        <h1 class="font-bold text-lg mb-4">All orders</h1>
-        <% if(messages.success) { %>
+  <div class="container mx-auto pt-12">
+    <h1 class="font-bold text-lg mb-4">All orders</h1>
+    <!-- <% if(messages.success) { %>
         <div id="success-alert" class="flex items-center bg-green-500 text-white text-sm font-bold px-4 py-3"
             role="alert">
             <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -10,40 +10,43 @@
             </svg>
             <p><%= messages.success %></p>
         </div>
+        <% } %> -->
+    <table class="w-full table-auto bg-white">
+      <thead>
+        <tr>
+          <th class="px-4 py-2 text-left">Orders</th>
+          <th class="px-4 py-2 text-left">Phone</th>
+          <th class="px-4 py-2 text-left">Address</th>
+          <th class="px-4 py-2 text-left">Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if(orders.length) { %> <% orders.forEach((order) => { %>
+        <tr>
+          <td class="border px-4 py-2">
+            <a class="link" href="/customer/orders/<%= order._id %>"
+              ><%= order._id %></a
+            >
+          </td>
+          <td class="border px-4 py-2">
+            <%= order.phone %>
+          </td>
+          <td class="border px-4 py-2">
+            <%= order.address %>
+          </td>
+          <td class="border px-4 py-2">
+            <%= order.createdAt.getDate()+ "/"+(order.createdAt.getMonth()+1)+
+            "/"+order.createdAt.getFullYear()+ " "+order.createdAt.getHours()+
+            ":"+order.createdAt.getMinutes()+ ":"+order.createdAt.getSeconds()
+            %>
+          </td>
+        </tr>
+        <% }) %> <% } else { %>
+        <tr>
+          <td class="p-4"><span>No orders found!</span></td>
+        </tr>
         <% } %>
-        <table class="w-full table-auto bg-white">
-            <thead>
-                <tr>
-                    <th class="px-4 py-2 text-left">Orders</th>
-                    <th class="px-4 py-2 text-left">Phone</th>
-                    <th class="px-4 py-2 text-left">Address</th>
-                    <th class="px-4 py-2 text-left">Time</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% if(orders.length) { %>
-                <% orders.forEach((order) => { %>
-                <tr>
-                    <td class="border px-4 py-2">
-                        <a class="link" href="/customer/orders/<%= order._id %>"><%= order._id %></a>
-                    </td>
-                    <td class="border px-4 py-2">
-                        <%= order.phone %>
-                    </td>
-                    <td class="border px-4 py-2">
-                        <%= order.address %>
-                    </td>
-                    <td class="border px-4 py-2">
-                        <%= moment(order.createdAt).format('hh:mm A') %>
-                    </td>
-                </tr>
-                <% }) %>
-                <% } else { %>
-                <tr>
-                    <td class="p-4"><span>No orders found!</span></td>
-                </tr>
-                <% } %>
-            </tbody>
-        </table>
-    </div>
+      </tbody>
+    </table>
+  </div>
 </section>
