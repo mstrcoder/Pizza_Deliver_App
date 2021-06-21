@@ -6119,10 +6119,13 @@ var cart = /*#__PURE__*/function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _add_to_cart__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./add_to_cart */ "./resources/js/add_to_cart.js");
 /* harmony import */ var _notification_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./notification.js */ "./resources/js/notification.js");
+/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./auth */ "./resources/js/auth.js");
+
 
 
 var add = document.querySelectorAll(".add-to-cart");
-var addtocarts = document.querySelector("#cartCounter"); // const login = document.querySelector(".login");
+var addtocarts = document.querySelector("#cartCounter");
+var google = document.getElementById("auth"); // const login = document.querySelector(".login");
 
 localStorage.setItem("session", "");
 var a = [];
@@ -6148,11 +6151,223 @@ add.forEach(function (x) {
 });
 addtocarts.addEventListener("click", function (e) {
   Object(_add_to_cart__WEBPACK_IMPORTED_MODULE_0__["cart"])(a);
+});
+google.addEventListener("click", function (e) {
+  e.preventDefault();
+  Object(_auth__WEBPACK_IMPORTED_MODULE_2__["gooleAuth"])();
+  console.log("Button pressed");
 }); // login.addEventListener("submit", (e) => {
 //   const email = document.getElementById("username").value;
 //   const password = document.getElementById("password").value;
 //   console.log(email, password);
 // });
+
+/***/ }),
+
+/***/ "./resources/js/auth.js":
+/*!******************************!*\
+  !*** ./resources/js/auth.js ***!
+  \******************************/
+/*! exports provided: login, signup, logout, gooleAuth */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "login", function() { return login; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "signup", function() { return signup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "gooleAuth", function() { return gooleAuth; });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _notification_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./notification.js */ "./resources/js/notification.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+var login = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(email, password) {
+    var res;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            _context.next = 3;
+            return axios__WEBPACK_IMPORTED_MODULE_1___default()({
+              method: "POST",
+              url: "/login",
+              data: {
+                email: email,
+                password: password
+              }
+            });
+
+          case 3:
+            res = _context.sent;
+
+            if (res.data.status === "Success!") {
+              Object(_notification_js__WEBPACK_IMPORTED_MODULE_2__["notification"])("success", "Logged in Successfully");
+              location.assign("/");
+            }
+
+            _context.next = 10;
+            break;
+
+          case 7:
+            _context.prev = 7;
+            _context.t0 = _context["catch"](0);
+            //  console.log('error');
+            Object(_notification_js__WEBPACK_IMPORTED_MODULE_2__["notification"])("error", _context.t0.response.data.message); //  console.log("galat hai pagale!!");
+
+          case 10:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[0, 7]]);
+  }));
+
+  return function login(_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}();
+var signup = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(name, email, password) {
+    var res;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            _context2.next = 3;
+            return axios__WEBPACK_IMPORTED_MODULE_1___default()({
+              method: "POST",
+              url: "/signup",
+              data: {
+                name: name,
+                email: email,
+                password: password
+              }
+            });
+
+          case 3:
+            res = _context2.sent;
+
+            if (res.data.status === "Success!") {
+              location.assign("/");
+            }
+
+            _context2.next = 10;
+            break;
+
+          case 7:
+            _context2.prev = 7;
+            _context2.t0 = _context2["catch"](0);
+            Object(_notification_js__WEBPACK_IMPORTED_MODULE_2__["notification"])("error", _context2.t0.response.data.message);
+
+          case 10:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2, null, [[0, 7]]);
+  }));
+
+  return function signup(_x3, _x4, _x5) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+var logout = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+    var res;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            _context3.next = 3;
+            return axios__WEBPACK_IMPORTED_MODULE_1___default()({
+              method: "GET",
+              url: "/logout"
+            });
+
+          case 3:
+            res = _context3.sent;
+
+            if (res.data.status === "success") {
+              Object(_notification_js__WEBPACK_IMPORTED_MODULE_2__["notification"])("success", "Logged out Successfully");
+              location.assign("/");
+            }
+
+            _context3.next = 10;
+            break;
+
+          case 7:
+            _context3.prev = 7;
+            _context3.t0 = _context3["catch"](0);
+            Object(_notification_js__WEBPACK_IMPORTED_MODULE_2__["notification"])("error", _context3.t0.response.data.message);
+
+          case 10:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[0, 7]]);
+  }));
+
+  return function logout() {
+    return _ref3.apply(this, arguments);
+  };
+}();
+var gooleAuth = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+    var res;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.prev = 0;
+            _context4.next = 3;
+            return axios__WEBPACK_IMPORTED_MODULE_1___default()({
+              method: "GET",
+              url: "/auth/google"
+            });
+
+          case 3:
+            res = _context4.sent;
+
+            if (res.data.status === "Success!") {
+              Object(_notification_js__WEBPACK_IMPORTED_MODULE_2__["notification"])("success", "Logged in Successfully");
+              location.assign("/");
+            }
+
+            _context4.next = 10;
+            break;
+
+          case 7:
+            _context4.prev = 7;
+            _context4.t0 = _context4["catch"](0);
+            //  console.log('error');
+            Object(_notification_js__WEBPACK_IMPORTED_MODULE_2__["notification"])("error", _context4.t0.response.data.message); //  console.log("galat hai pagale!!");
+
+          case 10:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4, null, [[0, 7]]);
+  }));
+
+  return function gooleAuth() {
+    return _ref4.apply(this, arguments);
+  };
+}();
 
 /***/ }),
 

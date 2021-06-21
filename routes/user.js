@@ -54,6 +54,7 @@ exports.login = catchAsync(async (req, res, next) => {
     expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
     httpOnly: true,
   });
+
   res.redirect("/");
   // res.status(201).json({
   //   status: "Success!",
@@ -136,3 +137,32 @@ exports.logout = (req, res, next) => {
   // });
   res.redirect("/");
 };
+exports.googleAuth = async (req, res, next) => {
+  const email = req.user.emails[0].value;
+  const name = req.user.displayName;
+  let user = await User.findOne({ email: email });
+  if (!user) {
+    user = await User.create(
+      { email: email, name: name },
+      {
+        runValidators: false,
+      }
+    );
+  }
+  const token = signToken(user._id);
+  res.cookie("jwt", token, {
+    expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+    httpOnly: true,
+  });
+
+  res.redirect("/");
+};
+// exports.restrictTo = (req, res, next) => {
+//   //roles is an array  [admin,leadguide]
+//   // console.log(roles, req.user);
+//   if (req.user && "admin" === req.user.role) {
+//     res.redirect("/admin/orders");
+//     // return next(new AppError("You do not have Presmission To Do this", 401));
+//   }
+//   res.redirect("/");
+// };
