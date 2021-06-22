@@ -24,13 +24,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
     httpOnly: true,
   });
-  res.status(201).json({
-    status: "Success!",
-    token,
-    data: {
-      user: user,
-    },
-  });
+  res.status(201).redirect("/");
 });
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
@@ -142,12 +136,11 @@ exports.googleAuth = async (req, res, next) => {
   const name = req.user.displayName;
   let user = await User.findOne({ email: email });
   if (!user) {
-    user = await User.create(
-      { email: email, name: name },
-      {
-        runValidators: false,
-      }
-    );
+    user = await User.create({
+      email: email,
+      name: name,
+      password: req.user.id,
+    });
   }
   const token = signToken(user._id);
   res.cookie("jwt", token, {
@@ -158,11 +151,12 @@ exports.googleAuth = async (req, res, next) => {
   res.redirect("/");
 };
 // exports.restrictTo = (req, res, next) => {
-//   //roles is an array  [admin,leadguide]
-//   // console.log(roles, req.user);
-//   if (req.user && "admin" === req.user.role) {
-//     res.redirect("/admin/orders");
+//   console.log(req.user);
+//   console.log(req.user?.role);
+//   if (req.user && req.user.role === "admin") {
+//     next();
 //     // return next(new AppError("You do not have Presmission To Do this", 401));
 //   }
-//   res.redirect("/");
+//   next();
+//   // return next(new AppError("You are Not Authorised to Access this route", 404));
 // };

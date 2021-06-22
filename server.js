@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const app= require('./app');
+
 mongoose
   .connect(
     "mongodb+srv://admin:Ifham@786@cluster0.mhiok.mongodb.net/Pizza_Delivery_App?retryWrites=true&w=majority",

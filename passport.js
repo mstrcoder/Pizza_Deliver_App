@@ -1,7 +1,6 @@
 require("dotenv").config();
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-console.log("hello");
 passport.serializeUser(function(user, done) {
   done(null, user);
 });

@@ -24,7 +24,14 @@ exports.placeOrder = catchAsync(async (req, res, next) => {
 });
 
 exports.findOrders = catchAsync(async (req, res, next) => {
-  const order = await Order.find({ customerId: req.user._id });
+  const order = await Order.find(
+    { customerId: req.user._id },
+    { status: { $ne: "completed" } },
+    null,
+    {
+      sort: { createdAt: -1 },
+    }
+  );
   res.render("./customers/orders", {
     orders: order,
     messages: {},
@@ -35,6 +42,9 @@ exports.TrackOrder = catchAsync(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
   if (!order) {
     return next(new AppError("Cannot Find The order", 404));
+  }
+  if (order.customerId != req.user._id) {
+    res.redirect("/");
   }
   res.render("./customers/singleOrder", {
     order: order,

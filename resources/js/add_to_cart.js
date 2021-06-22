@@ -12,6 +12,6 @@ export const cart = async (session) => {
       location.assign("/cart");
     }
   } catch (err) {
-    notification("error", `${err.response.data.message} Please Login To Add item to cart`);
+    notification("error", ` Please Login To Add item to cart`);
   }
 };

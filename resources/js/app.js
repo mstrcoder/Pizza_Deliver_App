@@ -1,9 +1,12 @@
 import { cart } from "./add_to_cart";
 import { notification } from "./notification.js";
 import { gooleAuth } from "./auth";
+import { Order_status } from "./status";
 const add = document.querySelectorAll(".add-to-cart");
 const addtocarts = document.querySelector("#cartCounter");
-const google = document.getElementById("auth");
+const status = document.querySelector("#hiddenInput")
+  ? document.querySelector("#hiddenInput").value
+  : null;
 // const login = document.querySelector(".login");
 localStorage.setItem("session", "");
 var a = [];
@@ -31,11 +34,9 @@ add.forEach((x) => {
 addtocarts.addEventListener("click", (e) => {
   cart(a);
 });
-google.addEventListener("click", (e) => {
-  e.preventDefault();
-  gooleAuth();
-  console.log("Button pressed");
-});
+if (status) {
+  Order_status(JSON.parse(status));
+}
 
 // login.addEventListener("submit", (e) => {
 //   const email = document.getElementById("username").value;

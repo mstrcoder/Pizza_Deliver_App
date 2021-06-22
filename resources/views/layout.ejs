@@ -27,7 +27,8 @@
       <div>
         <ul class="flex items-center">
           <li class="ml-6"><a href="/">Menu</a></li>
-          <% if(Object.keys(user).length) { %>
+          <% if(Object.keys(user).length) { %> <% if(user.role==="customer") {
+          %>
           <li class="ml-6"><a href="/customer/orders">My Orders</a></li>
           <li class="ml-6">
             <form id="logout" action="/logout" method="POST">
@@ -37,6 +38,15 @@
             </form>
           </li>
           <% } else { %>
+          <li class="ml-6"><a href="/admin/orders">All Orders</a></li>
+          <li class="ml-6">
+            <form id="logout" action="/logout" method="POST">
+              <a onclick="document.getElementById('logout').submit()" href="#"
+                >Logout</a
+              >
+            </form>
+          </li>
+          <% } %> <% } else { %>
           <li class="ml-6"><a href="/register">Register</a></li>
           <li class="ml-6"><a href="/login">Login</a></li>
           <% } %>

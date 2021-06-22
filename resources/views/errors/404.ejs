@@ -1,1 +1,9 @@
-<h1>Page not found. ( from 404 ejs)</h1>
+<div class="error">
+  <div class="error__title">
+    <h2 class="error__emoji">
+      <%=error.statusCode%>
+    </h2>
+    <h2 class="error__emoji">😢 🤯</h2>
+  </div>
+  <div class="error__msg"><%=error.message%></div>
+</div>

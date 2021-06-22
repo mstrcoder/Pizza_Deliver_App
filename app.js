@@ -12,10 +12,10 @@ const catchAsync = require("./utils/catch");
 const Auth = require("./routes/user");
 const Order = require("./routes/order");
 const Admin = require("./routes/admin");
+const Pizza = require("./routes/pizza");
 const Parser = require("cookie-parser");
 const session = require("express-session");
 const cookieSession = require("cookie-session");
-
 app.use(bodyParser.json());
 app.use(expressLayout);
 app.use(Parser());
@@ -40,78 +40,40 @@ require("./passport");
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get(
-  "/",
-  Auth.isLogeedIn,
-  catchAsync(async (req, res, next) => {
-    const pizzas = await Menu.find({});
-    if (!pizzas) {
-      next(new AppError("Cannot find Pizza in DB😢 ", 404));
-    }
-    const session = {};
-    res.render("home", {
-      pizzas: pizzas,
-      session: session,
-    });
-  })
-);
-let a = {};
-app.post(
-  "/cart",
-  Auth.Protect,
-  catchAsync(async (req, res, next) => {
-    a = req.body;
-    res.status(201).json({
-      status: "Success!",
-    });
-  })
-);
-app.get(
-  "/cart",
-  Auth.isLogeedIn,
-  catchAsync(async (req, res, next) => {
-    let Total_Price = 0;
-    if (Object.keys(a).length == 0) {
-      next(new AppError("Need to Add Pizza to Add to cart", 404));
-    } else {
-      for (let pizza of Object.values(a))
-        Total_Price += pizza.qty * pizza.price;
-      req.session.cart = a;
-      req.session.Total_Price = Total_Price;
-      res.render("customers/cart", {
-        session: a,
-        Total_Price: Total_Price,
-      });
-    }
-  })
-);
+app.get("/", Auth.isLogeedIn, Pizza.getPizaa);
+app.post("/cart", Auth.Protect, Pizza.Save);
+app.get("/cart", Auth.isLogeedIn, Pizza.AddToCart);
 app.get("/login", (req, res, next) => {
   res.render("auth/login", {
     messages: {},
     user: {},
-    session: {}
+    session: {},
   });
 });
 app.get("/register", (req, res, next) => {
   res.render("auth/register", {
     messages: {},
     user: {},
-    session: {}
+    session: {},
   });
 });
 app.get(
-  "/auth/google",cors(),
+  "/auth/google",
+  cors(),
   passport.authenticate("google", {
-    scope: ["profile", "email"]
+    scope: ["profile", "email"],
   })
 );
 
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "/login"
-  }),Auth.googleAuth
+    failureRedirect: "/login",
+  }),
+  Auth.googleAuth
 );
+app.get("/admin/orders", Auth.isLogeedIn, Admin.Myorders);
+app.post("/admin/order/status", Auth.isLogeedIn, Admin.status);
 app.post("/register", Auth.signup);
 app.post("/login", Auth.login);
 app.post("/logout", Auth.logout);
@@ -125,10 +87,13 @@ app.all("*", (req, res, next) => {
 app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
-  // console.log(err.statusCode, err.status, err.message);
-  res.status(err.statusCode).json({
-    status: err.status,
-    message: err.message,
-  });
+  // res.status(err.statusCode).json({
+  //   status: err.status,
+  //   message: err.message,
+  // });
+  let user = req.user || {};
+  res
+    .status(err.statusCode)
+    .render("errors/404", { session: {}, error: err, user: user });
 });
 module.exports = app;
