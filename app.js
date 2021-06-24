@@ -16,6 +16,8 @@ const Pizza = require("./routes/pizza");
 const Parser = require("cookie-parser");
 const session = require("express-session");
 const cookieSession = require("cookie-session");
+const compression = require('compression');
+
 app.use(bodyParser.json());
 app.use(expressLayout);
 app.use(Parser());
@@ -28,7 +30,7 @@ app.use(
   })
 );
 app.use(cors());
-
+app.use(compression());
 // app.use(session({ secret: "hello-bhayya-kese-ho-aap" }));
 app.use(
   cookieSession({
@@ -78,7 +80,7 @@ app.post("/register", Auth.signup);
 app.post("/login", Auth.login);
 app.post("/logout", Auth.logout);
 app.post("/orders", Auth.isLogeedIn, Order.placeOrder);
-app.get("/customer/orders", Auth.isLogeedIn, Order.findOrders);
+app.get("/customer/orders", Auth.Protect, Order.findOrders);
 app.get("/customer/orders/:id", Auth.Protect, Order.TrackOrder);
 
 app.all("*", (req, res, next) => {
@@ -87,10 +89,6 @@ app.all("*", (req, res, next) => {
 app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
-  // res.status(err.statusCode).json({
-  //   status: err.status,
-  //   message: err.message,
-  // });
   let user = req.user || {};
   res
     .status(err.statusCode)

@@ -20,20 +20,23 @@ exports.placeOrder = catchAsync(async (req, res, next) => {
   if (!order) {
     return next(new AppError("Your order Cannot be Completed", 404));
   }
-  res.send("Your order Created");
+  res.redirect('/customer/orders');
+  // res.send("Your order Created");
 });
 
 exports.findOrders = catchAsync(async (req, res, next) => {
   const order = await Order.find(
-    { customerId: req.user._id },
-    { status: { $ne: "completed" } },
-    null,
-    {
-      sort: { createdAt: -1 },
-    }
+    ({ customerId: req.user._id })
   );
+  let x=[];
+  order.map((i)=>{
+    if(i.status!=="completed")
+    {
+      x.push(i);
+    }
+  })
   res.render("./customers/orders", {
-    orders: order,
+    orders: x,
     messages: {},
     session: {},
   });
