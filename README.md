@@ -42,6 +42,8 @@ To run this project, you will need to add the following environment variables to
 
 `CALLBACK_URL`
 
+`MONGO_CONNECT_URL`
+
   
 ## Features
 
